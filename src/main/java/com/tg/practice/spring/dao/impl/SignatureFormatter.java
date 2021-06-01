@@ -20,9 +20,16 @@ public class SignatureFormatter implements MessageFormatter {
 		this.signature = signature;
 	}
 
-	public String format(String cadena, Object[] objects, Locale locale) {
+	public String format(String texto, Object[] objects, Locale locale) {
 
-		return null;
+		String mensaje = "";
+
+		for (Object obj : objects) {
+			mensaje = mensaje + obj.toString();
+		}
+
+		return texto + " - " + this.signature + mensaje.length();
+		//Un mensaje dado – ZZXY12
 	}
 
 }

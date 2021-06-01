@@ -1,22 +1,18 @@
 package com.tg.practice.spring.dao.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import com.tg.practice.spring.model.Pedido;
+import com.tg.practice.spring.model.Stock;
 import com.tg.practice.spring.service.ControlStockService;
 import com.tg.practice.spring.service.MessageFormatter;
 
 public class ControlStockServiceBean implements ControlStockService {
 
 	private Long cantidadMaximaImpresion;
-
-	public List<MessageFormatter> cadenaDeFormatters() {
-		SignatureFormatter signatureFormatter = new SignatureFormatter(null);
-		LenguageFormatter lenguageFormatter = new LenguageFormatter();
-		return Arrays.asList(signatureFormatter, lenguageFormatter);
-	}
+	private List<MessageFormatter> cadenaDeFormatters = new ArrayList<MessageFormatter>();
 
 	public Long getCantidadMaximaImpresion() {
 		return cantidadMaximaImpresion;
@@ -27,18 +23,34 @@ public class ControlStockServiceBean implements ControlStockService {
 	}
 
 	public void actualizarStock(Long cantidad) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public List<Pedido> findPedidosConSock() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<String> imprimirStocks(Locale locale) {
-		// TODO Auto-generated method stub
-		return null;
+	public void imprimirStocks(Locale locale) {
+		List<Stock> stocks = new StockDaoBean().getStocks(locale);
+
+		for (Stock stock : stocks) {
+
+			LanguageFormatter _languageFormatter = (LanguageFormatter) cadenaDeFormatters.get(0);
+			SignatureFormatter _signatureFormatter = (SignatureFormatter) cadenaDeFormatters.get(1);
+
+			String msg = _languageFormatter.format("texto",
+					new Object[] { stock.getProducto().getDescripcion(), stock.getCantidad() }, locale);
+
+			System.out.println(_signatureFormatter.format(msg,
+					new Object[] { stock.getProducto().getDescripcion(), stock.getCantidad() }, locale));
+		}
+	}
+
+	public List<MessageFormatter> getCadenaDeFormatters() {
+		return cadenaDeFormatters;
+	}
+
+	public void setCadenaDeFormatters(List<MessageFormatter> cadenaDeFormatters) {
+		this.cadenaDeFormatters = cadenaDeFormatters;
 	}
 
 }

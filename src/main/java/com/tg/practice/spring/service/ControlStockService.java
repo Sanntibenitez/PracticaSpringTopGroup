@@ -7,9 +7,9 @@ import com.tg.practice.spring.model.Pedido;
 
 public interface ControlStockService {
 	
-	void actualizarStock(Long cantidad);
+	public void actualizarStock(Long cantidad);
 	
-	List<Pedido> findPedidosConSock();
+	public List<Pedido> findPedidosConSock();
 	
-	List<String> imprimirStocks(Locale locale);
+	public void imprimirStocks(Locale locale);
 }

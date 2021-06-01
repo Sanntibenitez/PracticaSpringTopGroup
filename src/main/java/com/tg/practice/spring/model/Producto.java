@@ -45,6 +45,11 @@ public class Producto {
 
 	@ManyToMany(mappedBy = "productos")
 	Set<Maquina> maquinas;
+	
+	public Producto(String _codigo, String _descripcion) {
+		this.codigo = _codigo;
+		this.descripcion = _descripcion;
+	}
 
 	public Long getId() {
 		return id;

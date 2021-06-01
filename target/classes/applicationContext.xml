@@ -11,7 +11,7 @@
 
 	<!-- Inyeccion de dependencias por archivo -->
 	<context:property-placeholder
-		location="classpath:productos.propiedades" />
+		location="classpath:productos.properties" />
 
 	<!-- Creacion de la dependencia SignatureFormatter -->
 	<bean id="signatureFormatter"
@@ -23,10 +23,21 @@
 
 	</bean>
 
+	<!-- Creacion de la dependencia MessageSource -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="mensaje" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
 	<!-- Creacion de la dependencia LenguageFormatter -->
-	<bean id="lenguageFormatter"
-		class="com.tg.practice.spring.dao.impl.LenguageFormatter"></bean>
-		
+	<bean id="languageFormatter"
+		class="com.tg.practice.spring.dao.impl.LanguageFormatter">
+
+		<!-- Inyeccion de la dependencia messageSource -->
+		<property name="messageSource" ref="messageSource" />
+	</bean>
+
 	<!-- Creacion de la dependencia ControlStockServiceBean -->
 	<bean id="controlStockServiceBean"
 		class="com.tg.practice.spring.dao.impl.ControlStockServiceBean">
@@ -34,6 +45,15 @@
 		<!-- Inyeccion de dependencias por archivo -->
 		<property name="cantidadMaximaImpresion"
 			value="${maximaImpresion}"></property>
-	</bean>
 
+		<!-- Inyeccion de dependencias lenguageFormatter y signatureFormatter -->
+		<property name="cadenaDeFormatters">
+			<list>
+				<ref bean="languageFormatter" />
+				<ref bean="signatureFormatter" />
+			</list>
+		</property>
+
+	</bean>
+	
 </beans>

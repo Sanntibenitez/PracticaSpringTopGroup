@@ -4,5 +4,5 @@ import java.util.Locale;
 
 public interface MessageFormatter {
 	
-	String format(String cadena,Object[] objects,Locale locale);
+	String format(String texto,Object[] objects,Locale locale);
 }

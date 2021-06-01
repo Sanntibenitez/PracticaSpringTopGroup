@@ -1,5 +1,7 @@
 package com.tg.practice.spring;
 
+import java.util.Locale;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.tg.practice.spring.dao.impl.ControlStockServiceBean;
@@ -9,20 +11,19 @@ public class Main {
 
 	public static void main(String[] args) {
 
-//		ApplicationContext contexto = new ClassPathXmlApplicationContext(new String[] { "data-layer-context.xml",
-//				"db-context.xml", "general-context.xml", "service-layer-context.xml" });
-
 		ClassPathXmlApplicationContext contexto = new ClassPathXmlApplicationContext("applicationContext.xml");
-		
-//		Peticion de Beans a Spring
-		ControlStockServiceBean controlStock = contexto.getBean("controlStockServiceBean", ControlStockServiceBean.class);
-		
-//		Peticion de Beans a Spring
-		SignatureFormatter signatureFormatter = contexto.getBean("signatureFormatter", SignatureFormatter.class);
-		
-		System.out.println(controlStock.getCantidadMaximaImpresion());
-		System.out.println(signatureFormatter.getSignature());
-		
+
+		ControlStockServiceBean controlStock = contexto.getBean("controlStockServiceBean",
+				ControlStockServiceBean.class);
+
+		SignatureFormatter formatter = contexto.getBean("signatureFormatter", SignatureFormatter.class);
+
+		System.out.println("Signature archivo: " + formatter.getSignature());
+		System.out.println("Cantidad maxima impresion: " + controlStock.getCantidadMaximaImpresion());
+
+		controlStock.imprimirStocks(new Locale("en"));
+		controlStock.imprimirStocks(new Locale("es"));
+
 		contexto.close();
 
 	}
